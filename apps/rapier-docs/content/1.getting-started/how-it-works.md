@@ -1,6 +1,6 @@
 ---
 title: How it works
-description: Explanation of how the physic and 3D world merge
+description: Explanation of how the physic and 3D world merge.
 ---
 
 ::SceneWrapper
@@ -28,11 +28,11 @@ import { TresCanvas } from '@tresjs/core'
 <template>
   <TresCanvas window-size>
     <TresPerspectiveCamera :position="[15, 15, 15]" :look-at="[0, 0, 0]" />
-    <TresMesh :position="[0, 8, 0]">
+    <TresMesh name="ball" :position="[0, 8, 0]">
       <TresSphereGeometry :args="[1, 16]" />
       <TresMeshNormalMaterial />
     </TresMesh>
-    <TresMesh :position="[0, 0, 0]" :rotate-x="-Math.PI / 2">
+    <TresMesh name="floor" :position="[0, 0, 0]" :rotate-x="-Math.PI / 2">
       <TresPlaneGeometry :args="[20, 20, 20]" />
       <TresMeshBasicMaterial color="#f4f4f4" />
     </TresMesh>
@@ -49,7 +49,7 @@ Then we enable `Rapier` by adding the `<Physics >` component surrounding all the
 The `Physics` component needs to be wrapped by a [Suspense](https://vuejs.org/guide/built-ins/suspense.html#suspense) component
 ::
 
-```vue{3,10,11,21,22}
+```vue{3,9-20}
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
 import { Physics } from '@tresjs/rapier'
@@ -60,11 +60,11 @@ import { Physics } from '@tresjs/rapier'
     <TresPerspectiveCamera :position="[15, 15, 15]" :look-at="[0, 0, 0]" />
     <Suspense>
       <Physics>
-        <TresMesh :position="[0, 8, 0]">
+        <TresMesh name="ball" :position="[0, 8, 0]">
           <TresSphereGeometry :args="[1,16]" />
           <TresMeshNormalMaterial />
         </TresMesh>
-        <TresMesh :position="[0, 0, 0]" :rotate-x="-Math.PI / 2">
+        <TresMesh name="floor" :position="[0, 0, 0]" :rotate-x="-Math.PI / 2">
           <TresPlaneGeometry :args="[20, 20, 20]" />
           <TresMeshBasicMaterial color="#f4f4f4" />
         </TresMesh>
@@ -79,7 +79,7 @@ To add forces (such as gravity) to our sphere, we need to wrap it with a `<Rigid
 
 By default, the RigidBody type is `Dynamic`, which fits perfectly what we need for our ball. See all available types [here](/components/rigid-body.html#types)
 
-```vue
+```vue{3, 11, 16}
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
 import { Physics, RigidBody } from '@tresjs/rapier'
@@ -91,12 +91,12 @@ import { Physics, RigidBody } from '@tresjs/rapier'
     <Suspense>
       <Physics>
         <RigidBody>
-          <TresMesh :position="[0, 8, 0]">
+          <TresMesh name="ball" :position="[0, 8, 0]">
             <TresSphereGeometry :args="[1, 16]" />
             <TresMeshNormalMaterial />
           </TresMesh>
         </RigidBody>
-        <TresMesh :position="[0, 0, 0]" :rotate-x="-Math.PI / 2">
+        <TresMesh name="floor" :position="[0, 0, 0]" :rotate-x="-Math.PI / 2">
           <TresPlaneGeometry :args="[20, 20, 20]" />
           <TresMeshBasicMaterial color="#f4f4f4" />
         </TresMesh>
@@ -108,10 +108,10 @@ import { Physics, RigidBody } from '@tresjs/rapier'
 
 Let's repeat the same process with the floor, the process is the same except that now we use the type `Fixed` instead indicating the body cannot move.
 
-```vue
+```vue{2, 7}
 <template>
   <RigidBody type="fixed">
-    <TresMesh :position="[0, 0, 0]" :rotate-x="-Math.PI / 2">
+    <TresMesh name="ball" :position="[0, 0, 0]" :rotate-x="-Math.PI / 2">
       <TresPlaneGeometry :args="[20, 20, 20]" />
       <TresMeshBasicMaterial color="#f4f4f4" />
     </TresMesh>
@@ -135,13 +135,13 @@ import { Physics, RigidBody } from '@tresjs/rapier'
     <Suspense>
       <Physics>
         <RigidBody>
-          <TresMesh :position="[0, 8, 0]">
+          <TresMesh name="ball" :position="[0, 8, 0]">
             <TresSphereGeometry :args="[1, 16]" />
             <TresMeshNormalMaterial />
           </TresMesh>
         </RigidBody>
         <RigidBody type="fixed">
-          <TresMesh :position="[0, 0, 0]" :rotate-x="-Math.PI / 2">
+          <TresMesh name="floor" :position="[0, 0, 0]" :rotate-x="-Math.PI / 2">
             <TresPlaneGeometry :args="[20, 20, 20]" />
             <TresMeshBasicMaterial color="#f4f4f4" />
           </TresMesh>
