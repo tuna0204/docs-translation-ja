@@ -11,7 +11,7 @@ const navItems: NavigationMenuItem[] = [
     to: '/getting-started/',
   },
   {
-    label: 'Components',
+    label: 'API',
     to: '/api',
   },
 ]
