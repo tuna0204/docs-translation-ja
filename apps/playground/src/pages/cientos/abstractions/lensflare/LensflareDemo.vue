@@ -19,28 +19,15 @@ const { scale, seed, color, distance, size } = useControls({
   seed: { value: 1028, min: 1, max: 5000, step: 1 },
   color: '#ffffff',
   distance: { value: 0, min: -2, max: 2, step: 0.1 },
-  size: { value: 2, min: 0.1, max: 10, step: 0.5 },
 }, { uuid })
 </script>
 
 <template>
   <OrbitControls />
   <TresPointLight :position="[x, 0, z]">
-    <Lensflare
-      :seed="seed"
-      :scale="scale"
-      :color="color"
-      :distance="distance"
-      :size="size"
-    />
+    <Lensflare :seed="seed" :scale="scale" :color="color" :distance="distance" :size="size" />
   </TresPointLight>
-  <Torus
-    v-for="n in [-2, 0, 2]"
-    :key="n"
-    :args="[0.7, 0.15]"
-    :position-z="n"
-    :rotation-y="Math.PI * 0.5"
-  >
+  <Torus v-for="n in [-2, 0, 2]" :key="n" :args="[0.7, 0.15]" :position-z="n" :rotation-y="Math.PI * 0.5">
     <TresMeshPhongMaterial color="#888" />
   </Torus>
   <TresGridHelper :position="[0, -0.9, 0]" />
