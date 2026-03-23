@@ -72,9 +72,11 @@ const getSeededRandomProps = (
  * The precendence in creating the final elements' props is as follows:
  *
  * 1. `elements`
- * 2. `userDefaultElement` - `color`, `distance`, `size`, `texture` from component
+ * 2. `userDefaultElement` - `color`, `texture` from component
  * 3. seeded random props - if `seed` and/or `seedProps` is not `undefined`
  * 4. system default
+ *
+ * Note: `scale` and `distance` are applied as multipliers at render time, not as defaults.
  *
  * @param elements - `undefined` or an array of (potentially) incomplete element props
  * @param userDefaultElement - values to "fill in" missing partial elements fields – or overwrite seeded props
@@ -83,18 +85,6 @@ const getSeededRandomProps = (
  * @param systemDefaultElement - default values to "fill in" any remaining missing props
  * @returns LensflareElementProps[] - An array of complete props
  */
-
-/**
- * Extract only color and texture from user defaults.
- * When using seed-based generation, size and distance come from the seed presets
- * and should not be overridden (use the `scale` prop for size adjustment).
- */
-function pickSeededOverrides(userDefaultElement: Partial<LensflareElementProps>): Partial<LensflareElementProps> {
-  const result: Partial<LensflareElementProps> = {}
-  if (userDefaultElement.color !== undefined) { result.color = userDefaultElement.color }
-  if (userDefaultElement.texture !== undefined) { result.texture = userDefaultElement.texture }
-  return result
-}
 
 export const partialLensflarePropsArrayToLensflarePropsArray = (
   elements: Partial<LensflareElementProps>[] | undefined,
@@ -109,7 +99,7 @@ export const partialLensflarePropsArrayToLensflarePropsArray = (
     const elementsLength = elements.length
     if (seededLength >= elementsLength) {
       return seeded.map((_seededProps, i) =>
-        Object.assign(_seededProps, pickSeededOverrides(userDefaultElement), i < elementsLength ? elements[i] : {}),
+        Object.assign(_seededProps, userDefaultElement, i < elementsLength ? elements[i] : {}),
       )
     }
     else {
@@ -126,7 +116,7 @@ export const partialLensflarePropsArrayToLensflarePropsArray = (
 
   const _seedProps = (seedProps === undefined || seedProps.length === 0) ? defaultSeedProps : seedProps
   const seededProps = getSeededRandomProps(seed ?? 0, _seedProps)
-  return seededProps.map(props => Object.assign({}, props, pickSeededOverrides(userDefaultElement)))
+  return seededProps.map(props => Object.assign({}, props, userDefaultElement))
 }
 
 export interface LensflareElementProps {
@@ -134,23 +124,4 @@ export interface LensflareElementProps {
   size: number
   distance: number
   color: TresColor
-}
-
-export function filterLensflareElementProps(
-  props: Partial<LensflareElementProps>,
-): Partial<LensflareElementProps> {
-  return filter(props, (v, k) => k in defaultLensflareElementProps && v !== undefined)
-}
-
-function filter<T extends object>(
-  obj: T,
-  predicate: <K extends keyof T>(value: T[K], key: K) => boolean,
-) {
-  const result: { [K in keyof T]?: T[K] } = {};
-  (Object.keys(obj) as Array<keyof T>).forEach((name) => {
-    if (predicate(obj[name], name)) {
-      result[name] = obj[name]
-    }
-  })
-  return result
 }
