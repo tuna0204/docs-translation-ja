@@ -14,8 +14,12 @@ onBeforeRender(({ elapsed }) => {
   x.value = Math.sin(elapsed)
 })
 
-const { value: scale } = useControls({
+const { scale, seed, color, distance, size } = useControls({
   scale: { value: 0.33, min: 0.01, max: 2, step: 0.01 },
+  seed: { value: 1028, min: 1, max: 5000, step: 1 },
+  color: '#ffffff',
+  distance: { value: 0, min: -2, max: 2, step: 0.1 },
+  size: { value: 2, min: 0.1, max: 10, step: 0.5 },
 }, { uuid })
 </script>
 
@@ -23,8 +27,11 @@ const { value: scale } = useControls({
   <OrbitControls />
   <TresPointLight :position="[x, 0, z]">
     <Lensflare
-      :seed="1028"
+      :seed="seed"
       :scale="scale"
+      :color="color"
+      :distance="distance"
+      :size="size"
     />
   </TresPointLight>
   <Torus
