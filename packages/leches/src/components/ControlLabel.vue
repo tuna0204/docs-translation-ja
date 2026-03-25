@@ -12,6 +12,7 @@ defineProps<{
     :for="control.uniqueKey"
     :title="label"
     class="tl-text-gray-500 dark:tl-text-gray-400 tl-w-1/3 tl-truncate"
+    style="padding-left: var(--tl-h-padding);"
   >
     <i
       v-if="control.icon"

@@ -28,15 +28,13 @@ const toggle = () => {
 </script>
 
 <template>
-  <div class="tl-mb-2 tl-transition-all tl-duration-400 tl-ease-in-out">
+  <div class="tl-transition-all tl-duration-200 tl-ease-in-out" style="margin-bottom: var(--tl-unit-spacing);">
     <button
       class="
         tl-flex
         tl-items-center
         tl-justify-between
         tl-w-full
-        tl-py-2
-        tl-px-4
         tl-bg-gray-100
         dark:tl-bg-dark-300
         tl-border-none
@@ -49,6 +47,7 @@ const toggle = () => {
         tl-relative
         tl-z-10
       "
+      style="padding: 0 var(--tl-h-padding); height: var(--tl-unit-size); line-height: var(--tl-unit-size);"
       :aria-expanded="isOpen"
       aria-haspopup="true"
       role="button"
@@ -72,7 +71,8 @@ const toggle = () => {
       >
         <div
           v-show="isOpen"
-          class="tl-bg-white dark:tl-bg-dark-300 tl-rounded-b tl-pt-4 tl-pb-2"
+          class="tl-bg-white dark:tl-bg-dark-300 tl-rounded-b"
+          style="padding-top: var(--tl-v-padding); padding-bottom: var(--tl-v-padding);"
           role="menu"
         >
           <template
