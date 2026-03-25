@@ -13,8 +13,11 @@
   z-index: 1;
 }
 
-.leches-knob--offset {
-  left: 16px;
+.leches-knob--inline {
+  position: relative;
+  left: auto;
+  top: auto;
+  flex-shrink: 0;
 }
 
 .leches-knob::before {
@@ -23,7 +26,7 @@
   bottom: 0;
   content: '';
   height: calc(100% - 4px);
-  left: 50%;
+  left: 20%;
   margin-bottom: auto;
   margin-left: -1px;
   margin-top: auto;

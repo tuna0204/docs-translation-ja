@@ -116,10 +116,10 @@ function onKeyDown(e: KeyboardEvent, index: number) {
           'leches-num--drg': axisDrags[$index].isDragging.value,
         }"
       >
-        <div class="leches-knob leches-knob--offset" @mousedown="axisDrags[$index].onMouseDown($event)" />
+        <div class="leches-knob leches-knob--inline" @mousedown="axisDrags[$index].onMouseDown($event)" />
         <span
           v-if="labels[$index] && isVector"
-          class="tl-font-bold tl-px-1 tl-py-0.5 tl-text-0.65rem tl-text-gray-300 dark:tl-text-gray-400"
+          class="tl-font-bold tl-py-0.5 tl-text-0.65rem tl-text-gray-300 dark:tl-text-gray-400"
         >{{ labels[$index] }}</span>
 
         <input
