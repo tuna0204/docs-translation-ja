@@ -72,7 +72,7 @@ watch(mouse.x, (newValue) => {
 </script>
 
 <template>
-  <div class="tl-px-4 tl-relative tl-flex tl-gap-2 tl-justify-between tl-items-center tl-mb-2">
+  <div class="tl-relative tl-flex tl-gap-2 tl-justify-between tl-items-center" style="padding: 0 var(--tl-h-padding); margin-bottom: var(--tl-unit-spacing);">
     <ControlLabel
       :label="label"
       :control="control"
@@ -80,7 +80,7 @@ watch(mouse.x, (newValue) => {
     <div class="tl-relative tl-w-2/3 tl-flex tl-justify-between tl-items-center tl-gap-0.5">
       <input
         :value="controlValue"
-        class="leches-range tl-w-1/2 tl-h-0.75 tl-bg-dark-200 dark:tl-bg-yellow tl-rounded-full tl-appearance-none"
+        class="leches-range tl-w-1/2 tl-h-0.5 tl-bg-dark-200 dark:tl-bg-yellow tl-rounded-full tl-appearance-none"
         :style="sliderFilledStyle"
         type="range"
         :min="control.min"
@@ -90,7 +90,7 @@ watch(mouse.x, (newValue) => {
       />
       <input
         :value="controlValue"
-        class="tl-leches-input tl-w-1/4"
+        class="tl-leches-input tl-w-1/3"
         :class="{ 'tl-cursor-ew-resize': isMouseDown }"
         type="number"
         :min="control.min"
@@ -125,8 +125,8 @@ watch(mouse.x, (newValue) => {
 }
 
 .leches-range::-webkit-slider-thumb {
-  height: 1rem;
-  width: 0.75rem;
+  height: 0.75rem;
+  width: 0.5rem;
   border: 2px solid var(--tl-border-color);
   --un-bg-opacity: 1;
   background-color: var(--tl-thumb-bg);

@@ -108,7 +108,8 @@ watch(mouse.x, (newValue) => {
 
 <template>
   <div
-    class="tl-flex tl-px-4 tl-gap-1 tl-justify-between tl-items-center tl-mb-2"
+    class="tl-flex tl-gap-1 tl-justify-between tl-items-center"
+    style="padding: 0 var(--tl-h-padding); margin-bottom: var(--tl-unit-spacing);"
     @mouseup="onControlMouseUp()"
   >
     <ControlLabel
@@ -139,7 +140,6 @@ watch(mouse.x, (newValue) => {
           :step="step"
           class="tl-w-full
             tl-px-0
-            tl-p-1
             tl-text-right
             tl-text-0.65rem
             tl-text-gray-400
@@ -150,6 +150,7 @@ watch(mouse.x, (newValue) => {
             tl-border-none
             tl-font-sans
             tl-appearence-none"
+          style="padding: var(--tl-input-padding);"
           :value="vector[$index].toFixed(2)"
           :class="{ 'tl-cursor-ew-resize': isMouseDown }"
           @input="onChange($event, $index)"
