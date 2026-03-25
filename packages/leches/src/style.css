@@ -59,14 +59,13 @@
   bottom: 0;
   display: block;
   height: 8px;
-  left: 50%;
+  left: 0;
   margin: auto;
   overflow: visible;
   pointer-events: none;
   position: absolute;
   top: 0;
-  visibility: visible;
-  width: 100%;
+  width: 0;
 }
 
 .leches-guide_b {

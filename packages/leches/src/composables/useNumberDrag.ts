@@ -21,6 +21,7 @@ export function useNumberDrag(options: UseNumberDragOptions): {
   let accumulatedDelta = 0
   let accumulatedPixels = 0
   let knobElement: HTMLElement | null = null
+  let containerElem: HTMLDivElement | null = null
   let guideElem: SVGSVGElement | null = null
   let guideBodyElem: SVGPathElement | null = null
   let guideHeadElem: SVGPathElement | null = null
@@ -29,10 +30,27 @@ export function useNumberDrag(options: UseNumberDragOptions): {
   function createGuide() {
     if (!knobElement) return
 
+    // Container portaled to body — avoids overflow clipping
+    containerElem = document.createElement('div')
+    containerElem.classList.add('leches-guide-container')
+    document.body.appendChild(containerElem)
+
+    // Position container at the knob's screen location
+    const rect = knobElement.getBoundingClientRect()
+    containerElem.style.cssText = `
+      position: fixed;
+      left: ${rect.left + rect.width / 2}px;
+      top: ${rect.top}px;
+      width: 0;
+      height: ${rect.height}px;
+      pointer-events: none;
+      z-index: 99999;
+    `
+
     // SVG guide
     guideElem = document.createElementNS(SVG_NS, 'svg')
     guideElem.classList.add('leches-guide')
-    knobElement.appendChild(guideElem)
+    containerElem.appendChild(guideElem)
 
     guideBodyElem = document.createElementNS(SVG_NS, 'path')
     guideBodyElem.classList.add('leches-guide_b')
@@ -45,14 +63,13 @@ export function useNumberDrag(options: UseNumberDragOptions): {
     // Tooltip
     tooltipElem = document.createElement('div')
     tooltipElem.classList.add('leches-tooltip')
-    knobElement.appendChild(tooltipElem)
+    containerElem.appendChild(tooltipElem)
   }
 
   function updateGuide() {
     if (!guideBodyElem || !guideHeadElem || !tooltipElem) return
 
     const x = accumulatedPixels
-    // Arrow offset: slight inset from the tip
     const aox = x + (x > 0 ? -1 : x < 0 ? 1 : 0)
     const adx = Math.max(-4, Math.min(4, -aox))
 
@@ -62,7 +79,6 @@ export function useNumberDrag(options: UseNumberDragOptions): {
       `M ${x},-1 L${x},9`,
     ].join(' '))
 
-    // Tooltip: show formatted value, position at x
     const formatted = options.formatDelta
       ? options.formatDelta(Math.abs(accumulatedDelta))
       : String(Math.abs(accumulatedDelta).toFixed(2))
@@ -72,8 +88,8 @@ export function useNumberDrag(options: UseNumberDragOptions): {
   }
 
   function removeGuide() {
-    guideElem?.remove()
-    tooltipElem?.remove()
+    containerElem?.remove()
+    containerElem = null
     guideElem = null
     guideBodyElem = null
     guideHeadElem = null
