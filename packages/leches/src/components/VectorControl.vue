@@ -139,7 +139,6 @@ watch(mouse.x, (newValue) => {
           type="number"
           :step="step"
           class="tl-w-full
-            tl-px-0
             tl-text-right
             tl-text-0.65rem
             tl-text-gray-400

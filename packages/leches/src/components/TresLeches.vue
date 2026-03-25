@@ -365,7 +365,7 @@ onUnmounted(() => {
             </template>
           </template>
 
-          <div v-if="hasSlots" ref="slotsRef" class="tl-px-4">
+          <div v-if="hasSlots" ref="slotsRef" style="padding: 0 var(--tl-h-padding);">
             <slot></slot>
           </div>
         </div>
