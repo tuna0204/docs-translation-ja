@@ -38,12 +38,13 @@ const { height: windowHeight } = useWindowSize()
 const isInitialized = ref(false)
 const isResizing = ref(false)
 
-const DEFAULT_WIDTH = 320
+const DEFAULT_WIDTH = 280
 const COLLAPSED_SIZE = 36
-const MIN_HEIGHT = 148 // Minimum height for the panel
-const MAX_HEIGHT = 600 // Maximum height for the panel
-const CONTROL_HEIGHT = 44 // Approximate height per control
-const FPS_GRAPH_EXTRA_HEIGHT = 26 // Extra padding needed for FPS graph
+const MIN_HEIGHT = 100
+const MAX_HEIGHT = 600
+const HEADER_HEIGHT = 24
+const CONTROL_HEIGHT = 24 // 20px unit + 4px spacing
+const FPS_GRAPH_EXTRA_HEIGHT = 24
 
 const panelWidth = ref(DEFAULT_WIDTH)
 const resizeEdge = ref<'right' | 'left' | 'bottom' | 'corner' | 'corner-left' | null>(null)
@@ -109,8 +110,7 @@ function calculateHeight() {
     }
   }
 
-  // Calculate height: header (32px) + controls + padding + extra for FPS if present
-  const calculatedHeight = 32 + (totalControls * CONTROL_HEIGHT) + (hasFPSGraph ? FPS_GRAPH_EXTRA_HEIGHT : 0)
+  const calculatedHeight = HEADER_HEIGHT + (totalControls * CONTROL_HEIGHT) + (hasFPSGraph ? FPS_GRAPH_EXTRA_HEIGHT : 0)
   const maxAllowedHeight = float.value ? windowHeight.value : MAX_HEIGHT
   return Math.min(maxAllowedHeight, Math.max(MIN_HEIGHT, calculatedHeight))
 }
@@ -261,7 +261,7 @@ watch(isCollapsed, async (value) => {
 }, { immediate: true })
 
 function onFolderOpen(value: boolean) {
-  panelHeight.value = panelHeight.value + (44 * (value ? 1 : -1))
+  panelHeight.value = panelHeight.value + (CONTROL_HEIGHT * (value ? 1 : -1))
 }
 
 const slotsRef = ref()
@@ -293,7 +293,7 @@ onUnmounted(() => {
     <div
       :id="`tres-leches-pane-${uuid}`"
       ref="paneRef"
-      class="tl-box-border tl-z-24 tl-bg-white dark:tl-bg-dark-200 tl-shadow-xl tl-p-1 tl-font-sans tl-text-xs tl-flex tl-flex-col tl-rounded-lg"
+      class="tl-leches tl-box-border tl-z-24 tl-bg-white dark:tl-bg-dark-200 tl-shadow-xl tl-p-1 tl-font-sans tl-flex tl-flex-col tl-rounded-lg"
       :class="[
         $attrs.class,
         float ? 'tl-absolute tl-top-4' : 'tl-relative',
@@ -399,3 +399,24 @@ onUnmounted(() => {
     </div>
   </div>
 </template>
+
+<style>
+.tl-leches {
+  --tl-unit-size: 20px;
+  --tl-unit-spacing: 4px;
+  --tl-h-padding: 4px;
+  --tl-v-padding: 4px;
+  --tl-blade-radius: 2px;
+  --tl-font-size: 11px;
+  --tl-panel-width: 280px;
+  --tl-input-padding: 0 4px;
+  font-size: var(--tl-font-size);
+}
+
+.tl-leches input,
+.tl-leches select {
+  padding: var(--tl-input-padding);
+  border-radius: var(--tl-blade-radius);
+  font-size: var(--tl-font-size);
+}
+</style>
