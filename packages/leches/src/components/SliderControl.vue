@@ -110,12 +110,14 @@ function onKeyDown(e: KeyboardEvent) {
         :step="control.step"
         @input="onRangeChange"
       />
-      <div class="tl-relative tl-flex tl-items-center tl-w-1/3 tl-leches-input">
-        <div class="tl-w-[2px] tl-h-full tl-bg-gray-400 tl-opacity-50 hover:tl-opacity-100" @mousedown="onMouseDown">
-        </div>
+      <div
+        class="leches-num tl-relative tl-flex tl-items-center tl-w-1/3 tl-leches-input"
+        :class="{ 'leches-num--drg': isDragging }"
+      >
+        <div class="leches-knob" @mousedown="onMouseDown" />
         <input
           v-model="displayValue"
-          class="tl-leches-input tl-w-full tl-text-right"
+          class="leches-num_i tl-leches-input tl-w-full tl-text-right"
           type="text"
           :inputmode="getInputMode(step)"
           role="spinbutton"

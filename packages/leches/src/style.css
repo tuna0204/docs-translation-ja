@@ -1,3 +1,47 @@
 .tl-bg-red {
   background-color: #f44336 !important;
 }
+
+/* Number drag knob — Tweakpane-style thin bar handle */
+.leches-knob {
+  cursor: ew-resize;
+  height: 100%;
+  left: 4px;
+  position: absolute;
+  top: 0;
+  width: 12px;
+  z-index: 1;
+}
+
+.leches-knob::before {
+  background-color: currentColor;
+  border-radius: 1px;
+  bottom: 0;
+  content: '';
+  height: calc(100% - 4px);
+  left: 50%;
+  margin-bottom: auto;
+  margin-left: -1px;
+  margin-top: auto;
+  opacity: 0.1;
+  position: absolute;
+  top: 0;
+  transition: border-radius 0.1s, height 0.1s, transform 0.1s, width 0.1s, opacity 0.1s;
+  width: 2px;
+}
+
+.leches-knob:hover::before,
+.leches-num--drg .leches-knob::before {
+  opacity: 0.6;
+}
+
+.leches-num--drg .leches-knob::before {
+  border-radius: 50%;
+  height: 4px;
+  width: 4px;
+  margin-left: -2px;
+}
+
+.leches-num--drg .leches-num_i {
+  opacity: 0.3;
+}

@@ -108,15 +108,15 @@ function onKeyDown(e: KeyboardEvent, index: number) {
       <div
         v-for="(_subcontrol, $index) in vector"
         :key="label + $index"
-        class="tl-flex tl-items-center tl-bg-gray-100 dark:tl-bg-dark-300 tl-rounded tl-border-none tl-outline-none tl-focus:tl-border-gray-200 tl-focus:tl-ring tl-focus:tl-ring-gray-200"
+        class="leches-num tl-relative tl-flex tl-items-center tl-bg-gray-100 dark:tl-bg-dark-300 tl-rounded tl-border-none tl-outline-none tl-focus:tl-border-gray-200 tl-focus:tl-ring tl-focus:tl-ring-gray-200"
         :class="{
           'tl-w-2/5': focused === $index,
           'tl-w-1/3': isVector3(controlValue),
           'tl-w-1/2': isVector2(controlValue),
+          'leches-num--drg': axisDrags[$index].isDragging.value,
         }"
       >
-        <div class="tl-w-[2px] tl-h-full tl-bg-gray-400 tl-opacity-50 hover:tl-opacity-100" @mousedown="axisDrags[$index].onMouseDown($event)">
-        </div>
+        <div class="leches-knob" @mousedown="axisDrags[$index].onMouseDown($event)" />
         <span
           v-if="labels[$index] && isVector"
           class="tl-font-bold tl-px-1 tl-py-0.5 tl-text-0.65rem tl-text-gray-300 dark:tl-text-gray-400"

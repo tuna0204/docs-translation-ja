@@ -78,13 +78,25 @@ function onKeyDown(e: KeyboardEvent) {
   <div class="tl-flex tl-gap-1 tl-justify-between tl-items-center"
     style="padding: 0 var(--tl-h-padding); margin-bottom: var(--tl-unit-spacing);">
     <ControlLabel :label="label" :control="control" />
-    <div class="tl-relative tl-flex tl-items-center tl-w-2/3 tl-leches-input">
-      <div class="tl-w-[2px] tl-h-full tl-bg-gray-400 tl-opacity-50 hover:tl-opacity-100" @mousedown="onMouseDown">
-
-      </div>
-      <input :id="control.uniqueKey" v-model="displayValue" class="tl-leches-input tl-w-full tl-text-right" type="text"
-        :inputmode="getInputMode(step)" role="spinbutton" :aria-valuemin="control.min" :aria-valuemax="control.max"
-        :aria-valuenow="controlValue" @focus="onFocus" @blur="commit" @keydown="onKeyDown" />
+    <div
+      class="leches-num tl-relative tl-flex tl-items-center tl-w-2/3 tl-leches-input"
+      :class="{ 'leches-num--drg': isDragging }"
+    >
+      <div class="leches-knob" @mousedown="onMouseDown" />
+      <input
+        :id="control.uniqueKey"
+        v-model="displayValue"
+        class="leches-num_i tl-leches-input tl-w-full tl-text-right"
+        type="text"
+        :inputmode="getInputMode(step)"
+        role="spinbutton"
+        :aria-valuemin="control.min"
+        :aria-valuemax="control.max"
+        :aria-valuenow="controlValue"
+        @focus="onFocus"
+        @blur="commit"
+        @keydown="onKeyDown"
+      />
     </div>
   </div>
 </template>
