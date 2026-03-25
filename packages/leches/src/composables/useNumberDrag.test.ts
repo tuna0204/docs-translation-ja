@@ -35,10 +35,10 @@ describe('useNumberDrag', () => {
       onUpdate,
     })
 
-    const mousedown = new MouseEvent('mousedown', { clientX: 100, clientY: 50 })
-    onMouseDown(mousedown)
+    onMouseDown(new MouseEvent('mousedown', { clientX: 100, clientY: 50 }))
 
-    const mousemove = new MouseEvent('mousemove', { clientX: 105, clientY: 50 })
+    // movementX is used for pointer-locked x-axis only drag
+    const mousemove = new MouseEvent('mousemove', { movementX: 5 } as any)
     document.dispatchEvent(mousemove)
 
     expect(onUpdate).toHaveBeenCalled()
@@ -57,7 +57,7 @@ describe('useNumberDrag', () => {
     })
 
     onMouseDown(new MouseEvent('mousedown', { clientX: 100, clientY: 50 }))
-    document.dispatchEvent(new MouseEvent('mousemove', { clientX: 200, clientY: 50 }))
+    document.dispatchEvent(new MouseEvent('mousemove', { movementX: 100 } as any))
 
     const updatedValue = onUpdate.mock.calls[0][0]
     expect(updatedValue).toBeLessThanOrEqual(10)

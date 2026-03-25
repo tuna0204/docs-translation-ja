@@ -16,10 +16,8 @@ export function useNumberDrag(options: UseNumberDragOptions): {
   isDragging: Ref<boolean>
 } {
   const isDragging = ref(false)
-  let initialX = 0
   let accumulatedDelta = 0
   let tooltipEl: HTMLDivElement | null = null
-  let savedCursor = ''
 
   function createTooltip() {
     tooltipEl = document.createElement('div')
@@ -39,16 +37,18 @@ export function useNumberDrag(options: UseNumberDragOptions): {
     document.body.appendChild(tooltipEl)
   }
 
-  function updateTooltip(e: MouseEvent, delta: number) {
-    if (!tooltipEl) return
+  function updateTooltip(_e: MouseEvent, delta: number) {
+    if (!tooltipEl || !knobElement) return
     const arrow = delta >= 0 ? '\u2192' : '\u2190'
     const sign = delta >= 0 ? '+' : '-'
     const formatted = options.formatDelta
       ? options.formatDelta(Math.abs(delta))
       : String(Math.abs(delta).toFixed(2))
     tooltipEl.textContent = `${arrow} ${sign}${formatted}`
-    tooltipEl.style.left = `${e.clientX + 12}px`
-    tooltipEl.style.top = `${e.clientY - 24}px`
+    // Position tooltip above the knob element (cursor is locked)
+    const rect = knobElement.getBoundingClientRect()
+    tooltipEl.style.left = `${rect.left + rect.width / 2}px`
+    tooltipEl.style.top = `${rect.top - 24}px`
   }
 
   function removeTooltip() {
@@ -58,8 +58,11 @@ export function useNumberDrag(options: UseNumberDragOptions): {
     }
   }
 
+  let knobElement: HTMLElement | null = null
+
   function onMouseMove(e: MouseEvent) {
-    const diff = e.clientX - initialX
+    // Use movementX for pointer-locked drag (x-axis only)
+    const diff = e.movementX
     const modifier = e.shiftKey ? 10 : e.altKey ? 0.1 : 1
     const delta = diff * toValue(options.step) * modifier
 
@@ -71,24 +74,22 @@ export function useNumberDrag(options: UseNumberDragOptions): {
     )
     options.onUpdate(newValue)
     updateTooltip(e, accumulatedDelta)
-    initialX = e.clientX
   }
 
   function onMouseUp() {
     isDragging.value = false
     accumulatedDelta = 0
-    document.body.style.cursor = savedCursor
+    document.exitPointerLock?.()
     removeTooltip()
     document.removeEventListener('mousemove', onMouseMove)
     document.removeEventListener('mouseup', onMouseUp)
   }
 
   function onMouseDown(event: MouseEvent) {
-    initialX = event.clientX
     accumulatedDelta = 0
     isDragging.value = true
-    savedCursor = document.body.style.cursor
-    document.body.style.cursor = 'ew-resize'
+    knobElement = event.currentTarget as HTMLElement
+    knobElement?.requestPointerLock?.()
     createTooltip()
     document.addEventListener('mousemove', onMouseMove)
     document.addEventListener('mouseup', onMouseUp)
