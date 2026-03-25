@@ -19,7 +19,7 @@ function onChange(event: Event) {
 </script>
 
 <template>
-  <div class="tl-flex tl-px-4 tl-gap-1 tl-items-center tl-mb-2">
+  <div class="tl-flex tl-gap-1 tl-items-center" style="padding: 0 var(--tl-h-padding); margin-bottom: var(--tl-unit-spacing);">
     <ControlLabel :label="label" :control="control" />
     <div class="tl-w-2/3 tl-flex tl-justify-between tl-items-center">
       <input
@@ -59,6 +59,8 @@ function onChange(event: Event) {
 }
 
 .leches-color::-webkit-color-swatch {
-  @apply tl-p-0 tl-h-30px -tl-mt-0.5 tl-w-30px tl-rounded-sm tl-border-none;
+  @apply tl-p-0 -tl-mt-0.5 tl-rounded-sm tl-border-none;
+  height: calc(var(--tl-unit-size) - 4px);
+  width: calc(var(--tl-unit-size) - 4px);
 }
 </style>

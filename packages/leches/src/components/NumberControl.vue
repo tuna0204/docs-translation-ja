@@ -60,7 +60,7 @@ watch(mouse.x, (newValue) => {
 </script>
 
 <template>
-  <div class="tl-flex tl-px-4 tl-gap-1 tl-justify-between  tl-items-center tl-mb-2">
+  <div class="tl-flex tl-gap-1 tl-justify-between  tl-items-center" style="padding: 0 var(--tl-h-padding); margin-bottom: var(--tl-unit-spacing);">
     <ControlLabel
       :label="label"
       :control="control"
