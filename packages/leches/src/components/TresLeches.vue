@@ -42,7 +42,8 @@ const DEFAULT_WIDTH = 280
 const COLLAPSED_SIZE = 36
 const MIN_HEIGHT = 100
 const MAX_HEIGHT = 600
-const HEADER_HEIGHT = 24
+const HEADER_HEIGHT = 32 // button(28px) + wrapper padding(4px)
+const CONTENT_PADDING = 32 // tl-py-4 = 16px top + 16px bottom
 const CONTROL_HEIGHT = 24 // 20px unit + 4px spacing
 const FPS_GRAPH_EXTRA_HEIGHT = 24
 
@@ -110,12 +111,27 @@ function calculateHeight() {
     }
   }
 
-  const calculatedHeight = HEADER_HEIGHT + (totalControls * CONTROL_HEIGHT) + (hasFPSGraph ? FPS_GRAPH_EXTRA_HEIGHT : 0)
+  const calculatedHeight = HEADER_HEIGHT + CONTENT_PADDING + (totalControls * CONTROL_HEIGHT) + (hasFPSGraph ? FPS_GRAPH_EXTRA_HEIGHT : 0)
   const maxAllowedHeight = float.value ? windowHeight.value : MAX_HEIGHT
   return Math.min(maxAllowedHeight, Math.max(MIN_HEIGHT, calculatedHeight))
 }
 
 const panelHeight = ref(calculateHeight())
+
+// Recalculate height when controls are added/removed (e.g. child components mounting)
+watch(groupedControls, async () => {
+  const newHeight = calculateHeight()
+  if (newHeight === panelHeight.value) { return }
+  panelHeight.value = newHeight
+  if (!isCollapsed.value && float.value) {
+    await apply({
+      width: panelWidth.value,
+      height: newHeight,
+      right: '1rem',
+      left: 'auto',
+    })
+  }
+}, { flush: 'post' })
 
 const paneRef = ref<HTMLElement | null>(null)
 const handleRef = ref<HTMLElement | null>(null)
@@ -247,13 +263,26 @@ function toggleCollapsed() {
 
 // Update animation when panel state changes
 watch(isCollapsed, async (value) => {
+  if (!float.value) {
+    // Non-float mode: clear motion inline styles so CSS layout takes over
+    await nextTick()
+    if (paneRef.value) {
+      paneRef.value.style.width = ''
+      paneRef.value.style.height = ''
+      paneRef.value.style.right = ''
+      paneRef.value.style.left = ''
+      paneRef.value.style.opacity = '1'
+      paneRef.value.style.transform = ''
+    }
+    return
+  }
   if (!value) {
     await nextTick() // Wait for slot to be visible
     await apply({
-      width: float.value ? panelWidth.value : 'none',
-      height: float.value ? panelHeight.value : 'none',
-      right: float.value ? '1rem' : 'auto',
-      left: float.value ? 'auto' : '0',
+      width: panelWidth.value,
+      height: panelHeight.value,
+      right: '1rem',
+      left: 'auto',
     })
     return
   }
@@ -290,43 +319,29 @@ onUnmounted(() => {
 
 <template>
   <div class="tresleches-container">
-    <div
-      :id="`tres-leches-pane-${uuid}`"
-      ref="paneRef"
-      class="tl-leches tl-box-border tl-z-24 tl-bg-white dark:tl-bg-dark-200 tl-shadow-xl tl-p-1 tl-font-sans tl-flex tl-flex-col tl-rounded-lg"
+    <div :id="`tres-leches-pane-${uuid}`" ref="paneRef"
+      class="tl-leches tl-box-border tl-z-24 tl-bg-white dark:tl-bg-dark-200 tl-shadow-xl tl-font-sans tl-flex tl-flex-col tl-rounded-lg tl-overflow-hidden"
       :class="[
         $attrs.class,
         float ? 'tl-absolute tl-top-4' : 'tl-relative',
-      ]"
-      :style="panelStyle"
-    >
-      <header class="tl-flex tl-justify-between tl-items-center tl-text-gray-200 dark:tl-text-gray-600">
+      ]" :style="panelStyle">
+      <header class="tl-flex tl-items-center tl-text-gray-200 dark:tl-text-gray-600" :class="[!isCollapsed && float ? 'tl-justify-between' : 'tl-justify-center']">
         <div v-if="!isCollapsed && float" class="w-1/3"></div>
         <div v-if="!isCollapsed && float" ref="handleRef" class="tl-cursor-grabbing w-1/3">
           <i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i><i
-            class="i-ic-baseline-drag-indicator"
-          ></i>
+            class="i-ic-baseline-drag-indicator"></i>
         </div>
-        <div class="tl-flex tl-justify-end">
-          <button
-            class="tl-rounded-full
+        <div class="tl-flex tl-p-0.5" :class="[!isCollapsed && float ? 'tl-justify-end' : 'tl-justify-center']">
+          <button class="tl-rounded-full
               tl-inline-flex tl-justify-center tl-items-center
               tl-p-1.5
               tl-bg-gray-100
               dark:tl-bg-dark-300
               tl-outline-none
               tl-border-none
-              tl-cursor-pointer"
-          >
-            <img
-              :src="iconUrl"
-              alt="TresLechesIcon"
-              class="
-              tl-w-4 tl-h-4 tl-block"
-              :width="16"
-              :height="16"
-              @click="toggleCollapsed"
-            />
+              tl-cursor-pointer">
+            <img :src="iconUrl" alt="TresLechesIcon" class="
+              tl-w-4 tl-h-4 tl-block" :width="16" :height="16" @click="toggleCollapsed" />
           </button>
         </div>
       </header>
@@ -334,34 +349,18 @@ onUnmounted(() => {
         <!-- Gradient overlays moved outside scrollable area -->
         <div
           class="tl-pointer-events-none tl-absolute tl-left-0 tl-right-0 tl-top-0 tl-h-8 tl-bg-gradient-linear tl-bg-gradient-to-b tl-from-white dark:tl-from-dark-200 tl-to-transparent tl-z-20 tl-opacity-0 tl-transition-opacity duration-200"
-          :class="{ '!tl-opacity-100': showTopGradient }"
-        ></div>
+          :class="{ '!tl-opacity-100': showTopGradient }"></div>
         <div
           class="tl-pointer-events-none tl-absolute tl-left-0 tl-right-0 tl-bottom-0 tl-h-8 tl-bg-gradient-linear tl-bg-gradient-to-t tl-from-white dark:tl-from-dark-200 tl-to-transparent tl-z-20 tl-opacity-0 tl-transition-opacity duration-200"
-          :class="{ '!tl-opacity-100': showBottomGradient }"
-        ></div>
-        <div
-          ref="scrollContainer"
-          class="tl-h-full tl-overflow-y-auto tl-overflow-x-hidden tl-scrollbar tl-scrollbar-rounded tl-scrollbar-w-4px tl-scrollbar-radius-2 tl-scrollbar-track-radius-4 tl-scrollbar-thumb-radius-4 tl-scrollbar-track-color-gray-100 dark:tl-scrollbar-track-color-dark-300 tl-scrollbar-thumb-color-gray-300 dark:tl-scrollbar-thumb-color-gray-400"
-          @scroll="handleScroll"
-        >
-          <template
-            v-for="(group, folderName) of groupedControls"
-            :key="folderName"
-          >
-            <Folder
-              v-if="folderName !== 'default'"
-              :label="folderName"
-              :controls="group"
-              @open="onFolderOpen"
-            />
+          :class="{ '!tl-opacity-100': showBottomGradient }"></div>
+        <div ref="scrollContainer"
+          class="tl-scroll-container tl-h-full tl-overflow-y-auto tl-overflow-x-hidden tl-scrollbar tl-scrollbar-rounded tl-scrollbar-w-4px tl-scrollbar-radius-2 tl-scrollbar-track-radius-4 tl-scrollbar-thumb-radius-4 tl-scrollbar-track-color-gray-100 dark:tl-scrollbar-track-color-dark-300 tl-scrollbar-thumb-color-gray-300 dark:tl-scrollbar-thumb-color-gray-400"
+          @scroll="handleScroll">
+          <template v-for="(group, folderName) of groupedControls" :key="folderName">
+            <Folder v-if="folderName !== 'default'" :label="folderName" :controls="group" @open="onFolderOpen" />
             <template v-if="folderName === 'default'">
-              <ControlInput
-                v-for="control in group"
-                :key="control.label"
-                :control="control"
-                @change="newValue => onChange(control.key, newValue)"
-              />
+              <ControlInput v-for="control in group" :key="control.label" :control="control"
+                @change="newValue => onChange(control.key, newValue)" />
             </template>
           </template>
 
@@ -376,26 +375,20 @@ onUnmounted(() => {
         class="tl-absolute tl-right-0 tl-top-0 tl-bottom-0 tl-w-2 hover:tl-w-4 tl-transition-all tl-cursor-ew-resize tl-z-10"
         @mousedown="e => startResize('right', e)"
       ></span> -->
-      <span
-        v-if="!isCollapsed"
+      <span v-if="!isCollapsed"
         class="tl-absolute tl-left-0 tl-right-0 tl-bottom-0 tl-h-2 hover:tl-h-4 tl-transition-all tl-cursor-ns-resize tl-z-10"
-        @mousedown="e => startResize('bottom', e)"
-      ></span>
+        @mousedown="e => startResize('bottom', e)"></span>
       <!-- <span
         v-if="!isCollapsed"
         class="tl-absolute tl-right-0 tl-bottom-0 tl-w-4 tl-h-4 hover:tl-w-6 hover:tl-h-6 tl-transition-all tl-cursor-nwse-resize tl-z-10"
         @mousedown="e => startResize('corner', e)"
       ></span> -->
-      <span
-        v-if="!isCollapsed"
+      <span v-if="!isCollapsed"
         class="tl-absolute tl-left-0 tl-top-0 tl-bottom-0 tl-w-2 hover:tl-w-4 tl-transition-all tl-cursor-ew-resize tl-z-10"
-        @mousedown="e => startResize('left', e)"
-      ></span>
-      <span
-        v-if="!isCollapsed"
+        @mousedown="e => startResize('left', e)"></span>
+      <span v-if="!isCollapsed"
         class="tl-absolute tl-left-0 tl-bottom-0 tl-w-4 tl-h-4 hover:tl-w-6 hover:tl-h-6 tl-transition-all tl-cursor-nesw-resize tl-z-10"
-        @mousedown="e => startResize('corner-left', e)"
-      ></span>
+        @mousedown="e => startResize('corner-left', e)"></span>
     </div>
   </div>
 </template>
@@ -411,10 +404,17 @@ onUnmounted(() => {
   --tl-panel-width: 280px;
   --tl-input-padding: 0 4px;
   font-size: var(--tl-font-size);
+  font-weight: 500;
+}
+
+.tl-leches .tl-scroll-container {
+  scrollbar-gutter: stable;
 }
 
 .tl-leches input,
 .tl-leches select {
+  height: var(--tl-unit-size);
+  line-height: var(--tl-unit-size);
   padding: var(--tl-input-padding);
   border-radius: var(--tl-blade-radius);
   font-size: var(--tl-font-size);

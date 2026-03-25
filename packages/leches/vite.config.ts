@@ -59,7 +59,10 @@ export default defineConfig({
         }),
         presetWebFonts({
           fonts: {
-            sans: 'Roboto Mono',
+            sans: {
+              name: 'Roboto Mono',
+              weights: [400, 500, 700],
+            },
           },
         }),
       ],

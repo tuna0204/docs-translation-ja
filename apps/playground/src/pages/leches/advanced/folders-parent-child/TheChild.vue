@@ -34,7 +34,23 @@ const { wireframe, number, booleanDropdown } = useControls({
       value: true,
     }],
   },
+  rangeNumberReallyLongName: {
+    value: 1,
+    min: 0,
+    max: 10,
+    step: 0.1,
+  },
 }, { uuid })
+
+const { germanRangeNumberReallyLongName } = useControls('german', {
+  rangeNumberReallyLongName: {
+    value: 1,
+    min: 0,
+    max: 10,
+    step: 0.1,
+  },
+}, { uuid })
+
 
 watch(booleanDropdown, (value) => {
   // eslint-disable-next-line no-console

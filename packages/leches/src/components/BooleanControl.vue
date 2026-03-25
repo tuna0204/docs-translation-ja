@@ -26,7 +26,7 @@ function onKeydown(event: KeyboardEvent) {
 </script>
 
 <template>
-  <div class="tl-flex tl-gap-1 tl-justify-start tl-items-center" style="padding: 0 var(--tl-h-padding); margin-bottom: var(--tl-unit-spacing); min-height: var(--tl-unit-size);">
+  <div class="tl-flex tl-gap-1 tl-items-center" style="padding: 0 var(--tl-h-padding); margin-bottom: var(--tl-unit-spacing);">
     <ControlLabel
       :label="label"
       :control="control"
@@ -40,7 +40,7 @@ function onKeydown(event: KeyboardEvent) {
     />
     <label
       :for="control.uniqueKey"
-      class="tl-inline-flex tl-items-center tl-cursor-pointer"
+      class="tl-w-2/3 tl-inline-flex tl-items-center tl-cursor-pointer"
     >
       <span
         tabindex="0"
@@ -48,21 +48,17 @@ function onKeydown(event: KeyboardEvent) {
         :aria-checked="controlValue"
         :class="{ 'tl-bg-dark-500 dark:tl-bg-gray-400': controlValue,
                   'tl-bg-gray-100 dark:tl-bg-dark-300': !controlValue }"
-        class="tl-w-3
-          tl-h-3
+        class="leches-checkbox
           tl-flex
           tl-justify-center
           tl-items-center
           tl-rounded
-          tl-border
-          tl-border-gray-300
           tl-text-white
           tl-outline-none
           tl-border-none
           focus:tl-border-gray-200
           focus:tl-ring-2
           focus:tl-ring-gray-200
-          tl-mr-2
           tl-transition-colors
           tl-duration-200"
         @keydown="onKeydown"
@@ -74,3 +70,11 @@ function onKeydown(event: KeyboardEvent) {
     </label>
   </div>
 </template>
+
+<style>
+.leches-checkbox {
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+}
+</style>
