@@ -300,7 +300,7 @@ onUnmounted(() => {
       ]"
       :style="panelStyle"
     >
-      <header class="tl-flex tl-justify-between tl-items-center tl-text-gray-200 dark:tl-text-gray-600 tl-text-xs">
+      <header class="tl-flex tl-justify-between tl-items-center tl-text-gray-200 dark:tl-text-gray-600">
         <div v-if="!isCollapsed && float" class="w-1/3"></div>
         <div v-if="!isCollapsed && float" ref="handleRef" class="tl-cursor-grabbing w-1/3">
           <i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i><i

@@ -41,7 +41,6 @@ const toggle = () => {
         tl-text-gray-400
         dark:tl-text-gray-400
         tl-font-bold
-        tl-text-xs
         tl-font-sans
         tl-cursor-pointer
         tl-relative

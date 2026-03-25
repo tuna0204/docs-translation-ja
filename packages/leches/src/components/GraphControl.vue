@@ -136,7 +136,6 @@ onUnmounted(() => {
         tl-w-2/3
         tl-py-1
         tl-text-right
-        tl-text-xs
         tl-text-gray-400
         tl-bg-gray-100
         dark:tl-bg-dark-300
@@ -147,7 +146,7 @@ onUnmounted(() => {
       "
       style="border-radius: var(--tl-blade-radius);"
     >
-      <div class="tl-absolute tl-bg-gray-100 tl-p-0.5 rounded dark:tl-bg-dark-300 tl-bottom-0.5 tl-right-1 tl-font-sans tl-text-xs">
+      <div class="tl-absolute tl-bg-gray-100 tl-p-0.5 rounded dark:tl-bg-dark-300 tl-bottom-0.5 tl-right-1 tl-font-sans">
         {{ Math.round(control.value) }}
       </div>
       <svg

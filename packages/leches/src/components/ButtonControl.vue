@@ -36,7 +36,8 @@ const classes = computed(() => {
 }
 
 .leches-btn-sm {
-  @apply tl-text-xs tl-px-2 tl-py-1;
+  font-size: var(--tl-font-size);
+  @apply tl-px-2 tl-py-1;
 }
 
 .leches-btn-md {
