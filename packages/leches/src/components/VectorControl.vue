@@ -115,11 +115,7 @@ function onKeyDown(e: KeyboardEvent, index: number) {
           'tl-w-1/2': isVector2(controlValue),
         }"
       >
-        <div
-          class="tl-flex tl-items-center tl-justify-center tl-cursor-ew-resize tl-select-none tl-px-0.5 tl-text-gray-400 tl-text-0.5rem tl-opacity-50 hover:tl-opacity-100"
-          @mousedown="axisDrags[$index].onMouseDown($event)"
-        >
-          ⋮⋮
+        <div class="tl-w-[2px] tl-h-full tl-bg-gray-400 tl-opacity-50 hover:tl-opacity-100" @mousedown="axisDrags[$index].onMouseDown($event)">
         </div>
         <span
           v-if="labels[$index] && isVector"

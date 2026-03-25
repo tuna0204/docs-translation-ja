@@ -110,16 +110,12 @@ function onKeyDown(e: KeyboardEvent) {
         :step="control.step"
         @input="onRangeChange"
       />
-      <div class="tl-relative tl-flex tl-items-center tl-w-1/3">
-        <div
-          class="tl-flex tl-items-center tl-justify-center tl-cursor-ew-resize tl-select-none tl-px-0.5 tl-text-gray-400 tl-text-0.5rem tl-opacity-50 hover:tl-opacity-100"
-          @mousedown="onMouseDown"
-        >
-          ⋮⋮
+      <div class="tl-relative tl-flex tl-items-center tl-w-1/3 tl-leches-input">
+        <div class="tl-w-[2px] tl-h-full tl-bg-gray-400 tl-opacity-50 hover:tl-opacity-100" @mousedown="onMouseDown">
         </div>
         <input
           v-model="displayValue"
-          class="tl-leches-input tl-w-full"
+          class="tl-leches-input tl-w-full tl-text-right"
           type="text"
           :inputmode="getInputMode(step)"
           role="spinbutton"

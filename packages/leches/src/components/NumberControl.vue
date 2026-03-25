@@ -57,7 +57,7 @@ function commit() {
 
 function onKeyDown(e: KeyboardEvent) {
   if (e.key === 'Enter') {
-    ;(e.target as HTMLInputElement).blur()
+    ; (e.target as HTMLInputElement).blur()
     return
   }
   const modifier = e.shiftKey ? 10 : e.altKey ? 0.1 : 1
@@ -75,32 +75,16 @@ function onKeyDown(e: KeyboardEvent) {
 </script>
 
 <template>
-  <div class="tl-flex tl-gap-1 tl-justify-between tl-items-center" style="padding: 0 var(--tl-h-padding); margin-bottom: var(--tl-unit-spacing);">
-    <ControlLabel
-      :label="label"
-      :control="control"
-    />
-    <div class="tl-relative tl-flex tl-items-center tl-w-2/3">
-      <div
-        class="tl-flex tl-items-center tl-justify-center tl-cursor-ew-resize tl-select-none tl-px-1 tl-text-gray-400 tl-text-0.6rem tl-opacity-50 hover:tl-opacity-100"
-        @mousedown="onMouseDown"
-      >
-        ⋮⋮
+  <div class="tl-flex tl-gap-1 tl-justify-between tl-items-center"
+    style="padding: 0 var(--tl-h-padding); margin-bottom: var(--tl-unit-spacing);">
+    <ControlLabel :label="label" :control="control" />
+    <div class="tl-relative tl-flex tl-items-center tl-w-2/3 tl-leches-input">
+      <div class="tl-w-[2px] tl-h-full tl-bg-gray-400 tl-opacity-50 hover:tl-opacity-100" @mousedown="onMouseDown">
+
       </div>
-      <input
-        :id="control.uniqueKey"
-        v-model="displayValue"
-        class="tl-leches-input tl-w-full"
-        type="text"
-        :inputmode="getInputMode(step)"
-        role="spinbutton"
-        :aria-valuemin="control.min"
-        :aria-valuemax="control.max"
-        :aria-valuenow="controlValue"
-        @focus="onFocus"
-        @blur="commit"
-        @keydown="onKeyDown"
-      />
+      <input :id="control.uniqueKey" v-model="displayValue" class="tl-leches-input tl-w-full tl-text-right" type="text"
+        :inputmode="getInputMode(step)" role="spinbutton" :aria-valuemin="control.min" :aria-valuemax="control.max"
+        :aria-valuenow="controlValue" @focus="onFocus" @blur="commit" @keydown="onKeyDown" />
     </div>
   </div>
 </template>
