@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { isRef, ref } from 'vue'
 import type { LechesControlUnion } from '../types'
 import ControlInput from './ControlInput.vue'
 
@@ -11,7 +11,12 @@ defineProps<{
 const emit = defineEmits(['open'])
 
 function onChange(value: string, control: LechesControlUnion) {
-  control.value = value as any
+  if (isRef(control.value)) {
+    control.value.value = value
+  }
+  else {
+    control.value = value as any
+  }
 }
 
 const isOpen = ref(false)
