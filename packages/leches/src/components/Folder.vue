@@ -46,7 +46,7 @@ const toggle = () => {
         tl-relative
         tl-z-10
       "
-      style="padding: 0 var(--tl-h-padding); height: var(--tl-unit-size); line-height: var(--tl-unit-size); font-size: var(--tl-font-size);"
+      style="padding: 0 var(--tl-h-padding * 2); height: var(--tl-unit-size); line-height: var(--tl-unit-size); font-size: var(--tl-font-size);"
       :aria-expanded="isOpen"
       aria-haspopup="true"
       role="button"
@@ -74,15 +74,8 @@ const toggle = () => {
           style="padding-top: var(--tl-v-padding); padding-bottom: var(--tl-v-padding);"
           role="menu"
         >
-          <template
-            v-for="subcontrol in controls"
-            :key="subcontrol.label"
-          >
-            <ControlInput
-              :control="subcontrol"
-              role="menuitem"
-              @change="newValue => onChange(newValue, subcontrol)"
-            />
+          <template v-for="subcontrol in controls" :key="subcontrol.label">
+            <ControlInput :control="subcontrol" role="menuitem" @change="newValue => onChange(newValue, subcontrol)" />
           </template>
         </div>
       </Transition>

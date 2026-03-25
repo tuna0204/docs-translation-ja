@@ -118,21 +118,6 @@ function calculateHeight() {
 
 const panelHeight = ref(calculateHeight())
 
-// Recalculate height when controls are added/removed (e.g. child components mounting)
-watch(groupedControls, async () => {
-  const newHeight = calculateHeight()
-  if (newHeight === panelHeight.value) { return }
-  panelHeight.value = newHeight
-  if (!isCollapsed.value && float.value) {
-    await apply({
-      width: panelWidth.value,
-      height: newHeight,
-      right: '1rem',
-      left: 'auto',
-    })
-  }
-}, { flush: 'post' })
-
 const paneRef = ref<HTMLElement | null>(null)
 const handleRef = ref<HTMLElement | null>(null)
 
@@ -185,6 +170,21 @@ const { apply } = useMotion(paneRef, {
   },
 })
 
+// Recalculate height when controls are added/removed (e.g. child components mounting)
+watch(groupedControls, async () => {
+  const newHeight = calculateHeight()
+  if (newHeight === panelHeight.value) { return }
+  panelHeight.value = newHeight
+  if (!isCollapsed.value && float.value) {
+    await apply({
+      width: panelWidth.value,
+      height: newHeight,
+      right: '1rem',
+      left: 'auto',
+    })
+  }
+}, { flush: 'post' })
+
 const handleScroll = () => {
   if (!scrollContainer.value) { return }
 
@@ -205,6 +205,12 @@ function startResize(edge: 'right' | 'left' | 'bottom' | 'corner' | 'corner-left
   const startHeight = panelHeight.value
   const startDragX = dragPosition.value.x
 
+  // Calculate the natural height where content fits without scrollbar
+  const scrollOverflow = scrollContainer.value
+    ? scrollContainer.value.scrollHeight - scrollContainer.value.clientHeight
+    : 0
+  const naturalHeight = startHeight + scrollOverflow
+
   function onMouseMove(e: MouseEvent) {
     if (!isResizing.value || !paneRef.value) { return }
 
@@ -222,8 +228,7 @@ function startResize(edge: 'right' | 'left' | 'bottom' | 'corner' | 'corner-left
 
     if (resizeEdge.value === 'bottom' || resizeEdge.value === 'corner' || resizeEdge.value === 'corner-left') {
       const deltaY = e.clientY - startY
-      const maxAllowedHeight = float.value ? windowHeight.value : MAX_HEIGHT
-      panelHeight.value = Math.min(maxAllowedHeight, Math.max(MIN_HEIGHT, startHeight + deltaY))
+      panelHeight.value = Math.min(naturalHeight, Math.max(MIN_HEIGHT, startHeight + deltaY))
 
       // Update gradients after resize
       handleScroll()
@@ -319,29 +324,46 @@ onUnmounted(() => {
 
 <template>
   <div class="tresleches-container">
-    <div :id="`tres-leches-pane-${uuid}`" ref="paneRef"
+    <div
+      :id="`tres-leches-pane-${uuid}`"
+      ref="paneRef"
       class="tl-leches tl-box-border tl-z-24 tl-bg-white dark:tl-bg-dark-200 tl-shadow-xl tl-font-sans tl-flex tl-flex-col tl-rounded-lg tl-overflow-hidden"
       :class="[
         $attrs.class,
         float ? 'tl-absolute tl-top-4' : 'tl-relative',
-      ]" :style="panelStyle">
-      <header class="tl-flex tl-items-center tl-text-gray-200 dark:tl-text-gray-600" :class="[!isCollapsed && float ? 'tl-justify-between' : 'tl-justify-center']">
+      ]"
+      :style="panelStyle"
+    >
+      <header
+        class="tl-flex tl-items-center tl-text-gray-200 dark:tl-text-gray-600"
+        :class="[!isCollapsed && float ? 'tl-justify-between' : 'tl-justify-center']"
+      >
         <div v-if="!isCollapsed && float" class="w-1/3"></div>
         <div v-if="!isCollapsed && float" ref="handleRef" class="tl-cursor-grabbing w-1/3">
           <i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i><i
-            class="i-ic-baseline-drag-indicator"></i>
+            class="i-ic-baseline-drag-indicator"
+          ></i>
         </div>
         <div class="tl-flex tl-p-0.5" :class="[!isCollapsed && float ? 'tl-justify-end' : 'tl-justify-center']">
-          <button class="tl-rounded-full
+          <button
+            class="tl-rounded-full
               tl-inline-flex tl-justify-center tl-items-center
               tl-p-1.5
               tl-bg-gray-100
               dark:tl-bg-dark-300
               tl-outline-none
               tl-border-none
-              tl-cursor-pointer">
-            <img :src="iconUrl" alt="TresLechesIcon" class="
-              tl-w-4 tl-h-4 tl-block" :width="16" :height="16" @click="toggleCollapsed" />
+              tl-cursor-pointer"
+          >
+            <img
+              :src="iconUrl"
+              alt="TresLechesIcon"
+              class="
+              tl-w-4 tl-h-4 tl-block"
+              :width="16"
+              :height="16"
+              @click="toggleCollapsed"
+            />
           </button>
         </div>
       </header>
@@ -349,18 +371,26 @@ onUnmounted(() => {
         <!-- Gradient overlays moved outside scrollable area -->
         <div
           class="tl-pointer-events-none tl-absolute tl-left-0 tl-right-0 tl-top-0 tl-h-8 tl-bg-gradient-linear tl-bg-gradient-to-b tl-from-white dark:tl-from-dark-200 tl-to-transparent tl-z-20 tl-opacity-0 tl-transition-opacity duration-200"
-          :class="{ '!tl-opacity-100': showTopGradient }"></div>
+          :class="{ '!tl-opacity-100': showTopGradient }"
+        ></div>
         <div
           class="tl-pointer-events-none tl-absolute tl-left-0 tl-right-0 tl-bottom-0 tl-h-8 tl-bg-gradient-linear tl-bg-gradient-to-t tl-from-white dark:tl-from-dark-200 tl-to-transparent tl-z-20 tl-opacity-0 tl-transition-opacity duration-200"
-          :class="{ '!tl-opacity-100': showBottomGradient }"></div>
-        <div ref="scrollContainer"
+          :class="{ '!tl-opacity-100': showBottomGradient }"
+        ></div>
+        <div
+          ref="scrollContainer"
           class="tl-scroll-container tl-h-full tl-overflow-y-auto tl-overflow-x-hidden tl-scrollbar tl-scrollbar-rounded tl-scrollbar-w-4px tl-scrollbar-radius-2 tl-scrollbar-track-radius-4 tl-scrollbar-thumb-radius-4 tl-scrollbar-track-color-gray-100 dark:tl-scrollbar-track-color-dark-300 tl-scrollbar-thumb-color-gray-300 dark:tl-scrollbar-thumb-color-gray-400"
-          @scroll="handleScroll">
+          @scroll="handleScroll"
+        >
           <template v-for="(group, folderName) of groupedControls" :key="folderName">
             <Folder v-if="folderName !== 'default'" :label="folderName" :controls="group" @open="onFolderOpen" />
             <template v-if="folderName === 'default'">
-              <ControlInput v-for="control in group" :key="control.label" :control="control"
-                @change="newValue => onChange(control.key, newValue)" />
+              <ControlInput
+                v-for="control in group"
+                :key="control.label"
+                :control="control"
+                @change="newValue => onChange(control.key, newValue)"
+              />
             </template>
           </template>
 
@@ -375,20 +405,26 @@ onUnmounted(() => {
         class="tl-absolute tl-right-0 tl-top-0 tl-bottom-0 tl-w-2 hover:tl-w-4 tl-transition-all tl-cursor-ew-resize tl-z-10"
         @mousedown="e => startResize('right', e)"
       ></span> -->
-      <span v-if="!isCollapsed"
+      <span
+        v-if="!isCollapsed"
         class="tl-absolute tl-left-0 tl-right-0 tl-bottom-0 tl-h-2 hover:tl-h-4 tl-transition-all tl-cursor-ns-resize tl-z-10"
-        @mousedown="e => startResize('bottom', e)"></span>
+        @mousedown="e => startResize('bottom', e)"
+      ></span>
       <!-- <span
         v-if="!isCollapsed"
         class="tl-absolute tl-right-0 tl-bottom-0 tl-w-4 tl-h-4 hover:tl-w-6 hover:tl-h-6 tl-transition-all tl-cursor-nwse-resize tl-z-10"
         @mousedown="e => startResize('corner', e)"
       ></span> -->
-      <span v-if="!isCollapsed"
+      <span
+        v-if="!isCollapsed"
         class="tl-absolute tl-left-0 tl-top-0 tl-bottom-0 tl-w-2 hover:tl-w-4 tl-transition-all tl-cursor-ew-resize tl-z-10"
-        @mousedown="e => startResize('left', e)"></span>
-      <span v-if="!isCollapsed"
+        @mousedown="e => startResize('left', e)"
+      ></span>
+      <span
+        v-if="!isCollapsed"
         class="tl-absolute tl-left-0 tl-bottom-0 tl-w-4 tl-h-4 hover:tl-w-6 hover:tl-h-6 tl-transition-all tl-cursor-nesw-resize tl-z-10"
-        @mousedown="e => startResize('corner-left', e)"></span>
+        @mousedown="e => startResize('corner-left', e)"
+      ></span>
     </div>
   </div>
 </template>

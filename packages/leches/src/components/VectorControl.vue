@@ -107,23 +107,35 @@ watch(mouse.x, (newValue) => {
 </script>
 
 <template>
-  <div class="tl-flex tl-gap-1 tl-justify-between tl-items-center"
-    style="padding: 0 var(--tl-h-padding); margin-bottom: var(--tl-unit-spacing);" @mouseup="onControlMouseUp()">
+  <div
+    class="tl-flex tl-gap-1 tl-justify-between tl-items-center"
+    style="padding: 0 var(--tl-h-padding); margin-bottom: var(--tl-unit-spacing);"
+    @mouseup="onControlMouseUp()"
+  >
     <ControlLabel :label="label" :control="control" />
     <div class="tl-relative tl-w-2/3 tl-flex tl-justify-between tl-gap-0.5">
-      <div v-for="(_subcontrol, $index) in vector" :key="label + $index"
+      <div
+        v-for="(_subcontrol, $index) in vector"
+        :key="label + $index"
         class="tl-flex tl-items-center tl-bg-gray-100 dark:tl-bg-dark-300 tl-rounded tl-border-none tl-outline-none tl-focus:tl-border-gray-200 tl-focus:tl-ring tl-focus:tl-ring-gray-200"
         :class="{
           'tl-w-2/5': focused === $index,
           'tl-w-1/3': isVector3(controlValue),
           'tl-w-1/2': isVector2(controlValue),
-        }">
-        <span v-if="labels[$index] && isVector"
-          class="tl-font-bold tl-px-1 tl-py-0.5 tl-text-0.65rem tl-text-gray-300 dark:tl-text-gray-400">{{
-            labels[$index]
-          }}</span>
+        }"
+      >
+        <span
+          v-if="labels[$index] && isVector"
+          class="tl-font-bold tl-px-1 tl-py-0.5 tl-text-0.65rem tl-text-gray-300 dark:tl-text-gray-400"
+        >{{
+          labels[$index]
+        }}</span>
 
-        <input :id="`${control.uniqueKey}-${labels[$index]}`" type="number" :step="step" class="tl-w-full
+        <input
+          :id="`${control.uniqueKey}-${labels[$index]}`"
+          type="number"
+          :step="step"
+          class="tl-w-full
             tl-text-right
             tl-text-0.65rem
             tl-text-gray-400
@@ -133,10 +145,16 @@ watch(mouse.x, (newValue) => {
             tl-outline-none
             tl-border-none
             tl-font-sans
-            tl-appearence-none" style="padding: var(--tl-input-padding);" :value="vector[$index].toFixed(2)"
-          :class="{ 'tl-cursor-ew-resize': isMouseDown }" @input="onChange($event, $index)"
-          @mousedown="onInputMouseDown($event, $index)" @mouseup="onInputMouseUp($event, $index)"
-          @focus="onInputFocus($index)" @blur="onInputBlur" />
+            tl-appearence-none"
+          style="padding: var(--tl-input-padding);"
+          :value="vector[$index].toFixed(2)"
+          :class="{ 'tl-cursor-ew-resize': isMouseDown }"
+          @input="onChange($event, $index)"
+          @mousedown="onInputMouseDown($event, $index)"
+          @mouseup="onInputMouseUp($event, $index)"
+          @focus="onInputFocus($index)"
+          @blur="onInputBlur"
+        />
       </div>
     </div>
   </div>
