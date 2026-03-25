@@ -45,3 +45,60 @@
 .leches-num--drg .leches-num_i {
   opacity: 0.3;
 }
+
+/* SVG drag guide — arrow line from knob to drag position */
+.leches-guide {
+  bottom: 0;
+  display: block;
+  height: 8px;
+  left: 50%;
+  margin: auto;
+  overflow: visible;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  visibility: visible;
+  width: 100%;
+}
+
+.leches-guide_b {
+  fill: none;
+  stroke: currentColor;
+  stroke-dasharray: 1;
+  opacity: 0.5;
+}
+
+.leches-guide_h {
+  fill: none;
+  stroke: currentColor;
+  opacity: 0.5;
+}
+
+/* Drag tooltip — shows delta value at arrow tip */
+.leches-tooltip {
+  background-color: var(--tl-tooltip-bg, #333);
+  border-radius: 3px;
+  color: var(--tl-tooltip-color, #e5e5e5);
+  font-family: monospace;
+  font-size: 10px;
+  padding: 1px 4px;
+  pointer-events: none;
+  position: absolute;
+  transform: translate(-50%, -100%);
+  top: -2px;
+  white-space: nowrap;
+}
+
+.leches-tooltip::before {
+  border-color: var(--tl-tooltip-bg, #333) transparent transparent transparent;
+  border-style: solid;
+  border-width: 2px;
+  box-sizing: border-box;
+  content: '';
+  height: 4px;
+  left: 50%;
+  margin-left: -2px;
+  position: absolute;
+  top: 100%;
+  width: 4px;
+}
