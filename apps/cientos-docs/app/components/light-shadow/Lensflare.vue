@@ -30,7 +30,6 @@ function onLoop({ elapsed }: { elapsed: number }) {
         :scale="scale"
         :color="color"
         :distance="distance"
-        :size="size"
       />
     </TresPointLight>
     <Torus
