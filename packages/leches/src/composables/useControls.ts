@@ -104,8 +104,8 @@ const createControl = (key: string, value: any, type: LechesControlUnion['type']
       return {
         ...baseControl,
         type,
-        min: options?.min ?? 0,
-        max: options?.max ?? 1,
+        min: options?.min,
+        max: options?.max,
         step: options?.step ?? 0.1,
         format: options?.format,
       } as LechesNumberControl

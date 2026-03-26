@@ -101,13 +101,17 @@ export function useNumberDrag(options: UseNumberDragOptions): {
     const modifier = e.shiftKey ? 10 : e.altKey ? 0.1 : 1
     const delta = diff * toValue(options.step) * modifier
 
-    accumulatedDelta += delta
-    accumulatedPixels += diff
+    const currentValue = options.getValue()
     const newValue = clampValue(
-      options.getValue() + delta,
+      currentValue + delta,
       toValue(options.min),
       toValue(options.max),
     )
+    // Only accumulate the actual applied delta so guide respects bounds
+    const appliedDelta = newValue - currentValue
+    accumulatedDelta += appliedDelta
+    accumulatedPixels += diff * (delta !== 0 ? appliedDelta / delta : 0)
+
     options.onUpdate(newValue)
     updateGuide()
   }

@@ -51,7 +51,6 @@ const { germanRangeNumberReallyLongName } = useControls('german', {
   },
 }, { uuid })
 
-
 watch(booleanDropdown, (value) => {
   // eslint-disable-next-line no-console
   console.log('booleanDropdown', value)
