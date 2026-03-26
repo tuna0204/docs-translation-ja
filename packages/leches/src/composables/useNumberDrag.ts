@@ -28,7 +28,7 @@ export function useNumberDrag(options: UseNumberDragOptions): {
   let tooltipElem: HTMLDivElement | null = null
 
   function createGuide() {
-    if (!knobElement) return
+    if (!knobElement) { return }
 
     // Container portaled to body — avoids overflow clipping
     containerElem = document.createElement('div')
@@ -67,7 +67,7 @@ export function useNumberDrag(options: UseNumberDragOptions): {
   }
 
   function updateGuide() {
-    if (!guideBodyElem || !guideHeadElem || !tooltipElem) return
+    if (!guideBodyElem || !guideHeadElem || !tooltipElem) { return }
 
     const x = accumulatedPixels
     const aox = x + (x > 0 ? -1 : x < 0 ? 1 : 0)

@@ -55,7 +55,7 @@ function createDragForAxis(index: number) {
       emitAxisChange(index, v)
       displayValues.value[index] = formatter.value(v)
     },
-    formatDelta: (v) => formatter.value(v),
+    formatDelta: v => formatter.value(v),
   })
 }
 
@@ -68,7 +68,7 @@ function onFocus(index: number) {
 
 function onBlur(index: number) {
   focused.value = null
-  const parsed = parseFloat(displayValues.value[index])
+  const parsed = Number.parseFloat(displayValues.value[index])
   if (Number.isNaN(parsed)) {
     displayValues.value[index] = formatter.value(vector.value[index])
     return
@@ -116,7 +116,7 @@ function onKeyDown(e: KeyboardEvent, index: number) {
           'leches-num--drg': axisDrags[$index].isDragging.value,
         }"
       >
-        <div class="leches-knob leches-knob--inline" @mousedown="axisDrags[$index].onMouseDown($event)" />
+        <div class="leches-knob leches-knob--inline" @mousedown="axisDrags[$index].onMouseDown($event)"></div>
         <span
           v-if="labels[$index] && isVector"
           class="tl-font-bold tl-py-0.5 tl-text-0.65rem tl-text-gray-300 dark:tl-text-gray-400"

@@ -34,7 +34,12 @@
   opacity: 0.1;
   position: absolute;
   top: 0;
-  transition: border-radius 0.1s, height 0.1s, transform 0.1s, width 0.1s, opacity 0.1s;
+  transition:
+    border-radius 0.1s,
+    height 0.1s,
+    transform 0.1s,
+    width 0.1s,
+    opacity 0.1s;
   width: 2px;
 }
 

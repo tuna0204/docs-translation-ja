@@ -23,8 +23,8 @@ const { onMouseDown, isDragging } = useNumberDrag({
   step,
   min: computed(() => props.control.min),
   max: computed(() => props.control.max),
-  onUpdate: (v) => emit('change', v),
-  formatDelta: (v) => formatter.value(v),
+  onUpdate: v => emit('change', v),
+  formatDelta: v => formatter.value(v),
 })
 
 watch(controlValue, (v) => {
@@ -46,7 +46,7 @@ function onFocus() {
 
 function commit() {
   isFocused.value = false
-  const parsed = parseFloat(displayValue.value)
+  const parsed = Number.parseFloat(displayValue.value)
   if (Number.isNaN(parsed)) {
     displayValue.value = formatter.value(controlValue.value)
     return
@@ -75,14 +75,16 @@ function onKeyDown(e: KeyboardEvent) {
 </script>
 
 <template>
-  <div class="tl-flex tl-gap-1 tl-justify-between tl-items-center"
-    style="padding: 0 var(--tl-h-padding); margin-bottom: var(--tl-unit-spacing);">
+  <div
+    class="tl-flex tl-gap-1 tl-justify-between tl-items-center"
+    style="padding: 0 var(--tl-h-padding); margin-bottom: var(--tl-unit-spacing);"
+  >
     <ControlLabel :label="label" :control="control" />
     <div
       class="leches-num tl-relative tl-flex tl-items-center tl-w-2/3 tl-leches-input"
       :class="{ 'leches-num--drg': isDragging }"
     >
-      <div class="leches-knob" @mousedown="onMouseDown" />
+      <div class="leches-knob" @mousedown="onMouseDown"></div>
       <input
         :id="control.uniqueKey"
         v-model="displayValue"

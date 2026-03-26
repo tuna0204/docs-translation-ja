@@ -47,8 +47,8 @@ const { onMouseDown, isDragging } = useNumberDrag({
   step,
   min: computed(() => props.control.min),
   max: computed(() => props.control.max),
-  onUpdate: (v) => emit('change', v),
-  formatDelta: (v) => formatter.value(v),
+  onUpdate: v => emit('change', v),
+  formatDelta: v => formatter.value(v),
 })
 
 watch(isDragging, (dragging) => {
@@ -64,7 +64,7 @@ function onFocus() {
 
 function commit() {
   isFocused.value = false
-  const parsed = parseFloat(displayValue.value)
+  const parsed = Number.parseFloat(displayValue.value)
   if (Number.isNaN(parsed)) {
     displayValue.value = formatter.value(controlValue.value)
     return
@@ -114,7 +114,7 @@ function onKeyDown(e: KeyboardEvent) {
         class="leches-num tl-relative tl-flex tl-items-center tl-w-1/3 tl-leches-input"
         :class="{ 'leches-num--drg': isDragging }"
       >
-        <div class="leches-knob" @mousedown="onMouseDown" />
+        <div class="leches-knob" @mousedown="onMouseDown"></div>
         <input
           v-model="displayValue"
           class="leches-num_i tl-leches-input tl-w-full tl-text-right"
