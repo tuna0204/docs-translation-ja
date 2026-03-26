@@ -23,5 +23,5 @@ export const advancedRoutes = [
     path: '/leches/advanced/folders-parent-child',
     name: 'Folders Parent Child',
     component: () => import('@/pages/leches/advanced/folders-parent-child/ParentChildDemo.vue'),
-  }
+  },
 ]
