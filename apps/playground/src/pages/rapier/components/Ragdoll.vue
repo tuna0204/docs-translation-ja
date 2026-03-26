@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import {
   CuboidCollider,
-  ExposedRigidBody,
+  type ExposedRigidBody,
   RigidBody,
   SphericalJoint,
-  VectorArray,
+  type VectorArray,
 } from '@tresjs/rapier'
-import { onMounted, shallowRef, type ShallowRef } from 'vue'
+import { onMounted, onUnmounted, shallowRef, type ShallowRef } from 'vue'
 
 const headRef: ShallowRef<ExposedRigidBody | null> = shallowRef(null)
 const torsoRef: ShallowRef<ExposedRigidBody | null> = shallowRef(null)
@@ -41,8 +41,8 @@ const localAnchorNeck: VectorArray = [0, torsoHeight / 2, 0]
 const localAnchorLTorso: VectorArray = [(torsoWidth / 2) + stiffness, 0.1, 0]
 const localAnchorLArm: VectorArray = [-armLength / 2, 0, 0]
 
-const localAnchorLArmBottom: VectorArray = [(armLength / 2) + stiffness, 0 / 2, 0.0]
-const localAnchorLArmLower: VectorArray = [-armLength / 2, 0 / 2, 0]
+const localAnchorLArmBottom: VectorArray = [(armLength / 2) + stiffness, 0, 0]
+const localAnchorLArmLower: VectorArray = [-armLength / 2, 0, 0]
 
 const localAnchorRTorso: VectorArray = [-(torsoWidth / 2) - stiffness, 0.1, 0]
 const localAnchorRArm: VectorArray = [armLength / 2, 0, 0]
