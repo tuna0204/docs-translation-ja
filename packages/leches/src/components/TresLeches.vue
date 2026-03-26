@@ -143,31 +143,42 @@ const panelStyle = computed(() => {
   }
 })
 
+const motionConfig = float.value
+  ? {
+      initial: {
+        opacity: 0,
+        y: 100,
+        width: COLLAPSED_SIZE,
+        height: COLLAPSED_SIZE,
+        right: '1rem',
+        left: 'auto',
+      },
+      enter: {
+        opacity: 1,
+        y: 0,
+        width: COLLAPSED_SIZE,
+        height: COLLAPSED_SIZE,
+        right: '1rem',
+        left: 'auto',
+      },
+      leave: {
+        opacity: 0,
+        y: 100,
+        width: COLLAPSED_SIZE,
+        height: COLLAPSED_SIZE,
+        right: '1rem',
+        left: 'auto',
+      },
+    }
+  : {
+      initial: { opacity: 1 },
+      enter: { opacity: 1 },
+    }
+
 const { apply } = useMotion(paneRef, {
-  initial: {
-    opacity: 0,
-    y: 100,
-    width: COLLAPSED_SIZE,
-    height: COLLAPSED_SIZE,
-    right: '1rem',
-    left: 'auto',
-  },
-  enter: {
-    opacity: 1,
-    y: 0,
-    width: COLLAPSED_SIZE,
-    height: COLLAPSED_SIZE,
-    right: '1rem',
-    left: 'auto',
-  },
-  leave: {
-    opacity: 0,
-    y: 100,
-    width: COLLAPSED_SIZE,
-    height: COLLAPSED_SIZE,
-    right: '1rem',
-    left: 'auto',
-  },
+  initial: motionConfig.initial,
+  enter: motionConfig.enter,
+  ...(motionConfig.leave ? { leave: motionConfig.leave } : {}),
 })
 
 // Recalculate height when controls are added/removed (e.g. child components mounting)
@@ -249,13 +260,13 @@ function startResize(edge: 'right' | 'left' | 'bottom' | 'corner' | 'corner-left
 }
 
 watch(panelHeight, (value) => {
-  if (value && paneRef.value) {
+  if (value && paneRef.value && float.value) {
     paneRef.value.style.maxHeight = `${value}px`
   }
 })
 
 watch(panelWidth, (value) => {
-  if (value && paneRef.value) {
+  if (value && paneRef.value && float.value) {
     paneRef.value.style.maxWidth = `${value}px`
   }
 })

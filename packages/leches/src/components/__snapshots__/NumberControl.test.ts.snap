@@ -17,7 +17,7 @@ exports[`number Control > should render a number control 1`] = `
         <div>
           <div class="tl-flex tl-gap-1 tl-justify-between tl-items-center" style="padding: 0 var(--tl-h-padding); margin-bottom: var(--tl-unit-spacing);"><label for="default-numberValue" title="numberValue" class="tl-text-gray-400 dark:tl-text-gray-500 tl-w-1/3 tl-truncate" style="padding-left: var(--tl-h-padding);">numberValue</label>
             <div class="leches-num tl-relative tl-flex tl-items-center tl-w-2/3 tl-leches-input">
-              <div class="leches-knob"></div><input id="default-numberValue" class="leches-num_i tl-leches-input tl-w-full tl-text-right" type="text" inputmode="decimal" role="spinbutton" aria-valuemin="0" aria-valuemax="1" aria-valuenow="5">
+              <div class="leches-knob"></div><input id="default-numberValue" class="leches-num_i tl-leches-input tl-w-full tl-text-right" type="text" inputmode="decimal" role="spinbutton" aria-valuenow="5">
             </div>
           </div>
         </div>
