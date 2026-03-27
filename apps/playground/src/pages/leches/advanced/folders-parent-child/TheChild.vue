@@ -42,7 +42,7 @@ const { wireframe, number, booleanDropdown } = useControls({
   },
 }, { uuid })
 
-const { germanRangeNumberReallyLongName } = useControls('german', {
+const { _germanRangeNumberReallyLongName } = useControls('german', {
   rangeNumberReallyLongName: {
     value: 1,
     min: 0,
