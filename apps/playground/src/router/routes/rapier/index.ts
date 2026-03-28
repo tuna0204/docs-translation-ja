@@ -65,4 +65,9 @@ export const rapierRoutes = [
     name: 'Solver Groups',
     component: () => import('@/pages/rapier/SolverGroupsDemo.vue'),
   },
+  {
+    path: '/rapier/ragdoll',
+    name: 'Basic Ragdoll',
+    component: () => import('@/pages/rapier/RagdollDemo.vue'),
+  },
 ]
