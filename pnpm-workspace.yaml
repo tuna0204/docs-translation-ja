@@ -5,8 +5,7 @@ packages:
   - packages/*/playground/*
   - tools/*
 
-settings:
-  minimum-release-age: 5d
+minimumReleaseAge: 7200 # 2 hours
 
 catalogs:
   build:
