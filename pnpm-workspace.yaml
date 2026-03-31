@@ -5,7 +5,7 @@ packages:
   - packages/*/playground/*
   - tools/*
 
-minimumReleaseAge: 7200 # 2 hours
+minimumReleaseAge: 7200 # 5 days
 
 catalogs:
   build:
