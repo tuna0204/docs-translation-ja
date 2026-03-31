@@ -1,4 +1,7 @@
-# Physics
+---
+title: Physics
+description: The main component for render.
+---
 
 The `<Physics />` component is the main component, provider and source of all physics calculations.
 

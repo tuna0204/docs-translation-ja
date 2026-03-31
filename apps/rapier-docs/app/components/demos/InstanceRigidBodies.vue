@@ -44,7 +44,7 @@ watch(instanceRef, (mesh) => {
     <Suspense>
       <Physics :debug="debug">
         <InstancedRigidBody collider="ball" :args="[0.25]" :restitution="0.5">
-          <TresInstancedMesh ref="instanceRef" :args="[torusKnots, torusKnotsMaterial, 500]" />
+          <TresInstancedMesh ref="instanceRef" :args="[torusKnots, torusKnotsMaterial, 750]" />
         </InstancedRigidBody>
         <LittleBoxForDemos />
       </Physics>

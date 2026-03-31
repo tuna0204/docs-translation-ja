@@ -3,9 +3,6 @@ title: Rigid body
 description: The real-time simulation of rigid-bodies subjected to forces and contacts is the main feature of a physics engine for video-games, robotics, or animation.
 ---
 
-The real-time simulation of rigid-bodies subjected to forces and contacts is the
-main feature of a physics engine for video-games, robotics, or animation.
-
 `@tresjs/rapier` provides a `RigidBody` component compatible with the `Tresjs`
 ecosystem, with the advantage of making the "bound" between the two worlds
 (physic world and our 3D scene).
