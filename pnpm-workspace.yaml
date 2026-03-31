@@ -5,6 +5,9 @@ packages:
   - packages/*/playground/*
   - tools/*
 
+settings:
+  minimum-release-age: 5d
+
 catalogs:
   build:
     rollup-plugin-analyzer: ^4.0.0
