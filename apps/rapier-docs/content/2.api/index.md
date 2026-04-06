@@ -40,19 +40,44 @@ import { Physics } from '@tresjs/rapier'
 
 ## Props
 
-| Prop      | Description                   | default |
-| :-------- | :---------------------------- | :------ |
-| `gravity` | Sets the gravity of the world | `[0, -9.8, 0]` |
-| `debug`   | Enables debug mode            | `false` |
-| `timestep`   | Sets the new simulation timestep in seconds.          | `1` |
+:::field-group
+  ::::field{name="gravity" type="TresVector3 | THREE.Vector3"}
+  Default: `[0, -9.8, 0]` - Sets the gravity of the world.
+  ::::
+
+  ::::field{name="debug" type="boolean"}
+  Default: `false` - Enables debug mode.
+  ::::
+
+  ::::field{name="timestep" type="number"}
+  Default: `1` - Sets the new simulation timestep in seconds.
+  ::::
+:::
 
 ## Expose properties
 
-| property      | Description
-| :-------- | :----------------------------
-| `init` | Initializes the Rapier module and creates the physics world with gravity.
-| `isDebug`   | Reactive flag for debug mode state.            |
-| `isPaused`   | Reactive flag for paused state.
-| `rapier`   | Shallow ref with the loaded Rapier module.
-| `setWorld`   | Replaces the current Rapier world.
-| `world`   | Shallow ref with the current Rapier world.  |
+:::field-group
+  ::::field{name="init" type="() => Promise<void>"}
+  Initializes the Rapier module and creates the physics world with gravity.
+  ::::
+
+  ::::field{name="isDebug" type="Ref<boolean>"}
+  Reactive flag for debug mode state.
+  ::::
+
+  ::::field{name="isPaused" type="Ref<boolean>"}
+  Reactive flag for paused state.
+  ::::
+
+  ::::field{name="rapier" type="ShallowRef<RAPIER>"}
+  Shallow ref with the loaded Rapier module.
+  ::::
+
+  ::::field{name="setWorld" type="(world: World) => void"}
+  Replaces the current Rapier world.
+  ::::
+
+  ::::field{name="world" type="ShallowRef<World>"}
+  Shallow ref with the current Rapier world.
+  ::::
+:::
