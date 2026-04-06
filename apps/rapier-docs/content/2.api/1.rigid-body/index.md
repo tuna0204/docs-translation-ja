@@ -167,6 +167,26 @@ use[Template ref](https://vuejs.org/guide/essentials/template-refs.html#template
 
 :::
 
+## Events
+
+:::field-group
+  ::::field{name="collision-enter" type="(payload: { source: SourceTarget, target: SourceTarget }) => void"}
+  Triggered when a collider starts colliding with another collider. Requires `activeCollision` prop to be set. See [Collisions](/api/rigid-body/collisions).
+  ::::
+
+  ::::field{name="collision-exit" type="(payload: { source: SourceTarget, target: SourceTarget }) => void"}
+  Triggered when a collider stops colliding with another collider. Requires `activeCollision` prop to be set. See [Collisions](/api/rigid-body/collisions).
+  ::::
+
+  ::::field{name="intersection-enter" type="(payload: { source: SourceTarget, target: SourceTarget }) => void"}
+  Triggered when a sensor collider starts intersecting another collider. Requires `activeCollision` and `sensor` props. See [Sensor](/api/rigid-body/sensor).
+  ::::
+
+  ::::field{name="intersection-exit" type="(payload: { source: SourceTarget, target: SourceTarget }) => void"}
+  Triggered when a sensor collider stops intersecting another collider. Requires `activeCollision` and `sensor` props. See [Sensor](/api/rigid-body/sensor).
+  ::::
+:::
+
 ## Expose object
 
 :::field-group
