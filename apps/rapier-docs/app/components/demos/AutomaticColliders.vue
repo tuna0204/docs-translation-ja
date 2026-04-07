@@ -68,7 +68,7 @@ const { debug, friction, mass, restitution, density } = useControls({
         >
           <TresMesh @click="jumpBall">
             <TresSphereGeometry />
-            <TresMeshStandardMaterial color="#f4f4f4" />
+            <TresMeshStandardMaterial color="#5672cd" />
           </TresMesh>
         </RigidBody>
         <RigidBody
@@ -81,7 +81,7 @@ const { debug, friction, mass, restitution, density } = useControls({
         >
           <TresMesh @click="jumpCube">
             <TresSphereGeometry />
-            <TresMeshStandardMaterial color="#f4f4f4" />
+            <TresMeshStandardMaterial color="#5672cd" />
           </TresMesh>
         </RigidBody>
         <RigidBody
@@ -95,7 +95,7 @@ const { debug, friction, mass, restitution, density } = useControls({
         >
           <TresMesh @click="jumpCapsule">
             <TresSphereGeometry />
-            <TresMeshStandardMaterial color="#f4f4f4" />
+            <TresMeshStandardMaterial color="#5672cd" />
           </TresMesh>
         </RigidBody>
 

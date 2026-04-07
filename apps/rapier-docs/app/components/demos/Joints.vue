@@ -23,45 +23,33 @@ const bodyRefA: ShallowRef<ExposedRigidBody | null> = shallowRef(null)
 const bodyRefB: ShallowRef<ExposedRigidBody | null> = shallowRef(null)
 
 const { debug } = useControls({
-   debug: true,
+  debug: true,
 }, { uuid: inject(`uuid`) })
 </script>
 
 <template>
-  <TresCanvas v-bind="gl" >
-      <TresPerspectiveCamera :position="[0, 0, 15]" :look-at="[0, 0, 0]" />
-      <Suspense>
-        <Physics :debug>
-        <RigidBody
-          ref="bodyRefA"
-          type="kinematic"
-          :position="[0, 0, 0]"
-          collider="ball"
-        >
+  <TresCanvas v-bind="gl">
+    <TresPerspectiveCamera :position="[0, 0, 15]" :look-at="[0, 0, 0]" />
+    <Suspense>
+      <Physics :debug>
+        <RigidBody ref="bodyRefA" type="kinematic" :position="[0, 0, 0]" collider="ball">
           <TresMesh>
             <TresSphereGeometry />
-            <TresMeshNormalMaterial />
+            <TresMeshStandardMaterial color="#5672cd" />
           </TresMesh>
         </RigidBody>
 
-        <RigidBody
-          ref="bodyRefB"
-          :position="[-2.2, 0, 0]"
-          collider="ball"
-        >
+        <RigidBody ref="bodyRefB" :position="[-2.2, 0, 0]" collider="ball">
           <TresMesh>
             <TresSphereGeometry />
-            <TresMeshNormalMaterial />
+            <TresMeshStandardMaterial color="#5672cd" />
           </TresMesh>
         </RigidBody>
 
-        <SphericalJoint
-          :bodies="[bodyRefA?.instance, bodyRefB?.instance]"
-          :params="[
-            [0, -1.1, 0],
-            [0, 2, 0],
-          ]"
-        />
+        <SphericalJoint :bodies="[bodyRefA?.instance, bodyRefB?.instance]" :params="[
+          [0, -1.1, 0],
+          [0, 2, 0],
+        ]" />
 
         <RigidBody type="fixed">
           <TresMesh :position="[0, -8, 0]">
@@ -70,6 +58,7 @@ const { debug } = useControls({
           </TresMesh>
         </RigidBody>
       </Physics>
-      </Suspense>
-    </TresCanvas>
+    </Suspense>
+    <TresDirectionalLight :position="[1, 2, 3]" :intensity="1.5" />
+  </TresCanvas>
 </template>

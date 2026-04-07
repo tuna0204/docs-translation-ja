@@ -75,7 +75,7 @@ const { debug } =useControls({
         <RigidBody ref="rigidCubeRef" collider="ball">
           <TresMesh :position="[0, 5, 0]">
             <TresSphereGeometry />
-            <TresMeshNormalMaterial />
+            <TresMeshStandardMaterial color="#5672cd" />
           </TresMesh>
         </RigidBody>
 
@@ -88,7 +88,7 @@ const { debug } =useControls({
         >
           <TresMesh :position="[0, -4, 7.5]">
             <TresTorusGeometry :args="[3]" />
-            <TresMeshNormalMaterial />
+            <TresMeshStandardMaterial color="#5672cd" />
           </TresMesh>
         </RigidBody>
         <RigidBody
@@ -100,7 +100,7 @@ const { debug } =useControls({
         >
           <TresMesh :position="[0, -4, -7.5]">
             <TresTorusGeometry :args="[3]" />
-            <TresMeshNormalMaterial />
+            <TresMeshStandardMaterial color="#5672cd" />
           </TresMesh>
         </RigidBody>
 

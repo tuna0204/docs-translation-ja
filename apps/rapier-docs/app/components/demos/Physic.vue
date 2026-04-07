@@ -30,7 +30,7 @@ const { gravityY, gravityX, gravityZ, debug } = useControls({
         <RigidBody ref="ballRef" collider="ball" :position="[0, 0, 0]">
           <TresMesh :position="[0, 0, 0]">
             <TresSphereGeometry />
-            <TresMeshNormalMaterial />
+            <TresMeshStandardMaterial color="#5672cd" />
           </TresMesh>
         </RigidBody>
 

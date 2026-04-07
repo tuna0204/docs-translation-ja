@@ -70,7 +70,7 @@ const { debug, activeCollision, enableCcd } = useControls(
         >
           <TresMesh @click="jump" :position="[0, 15, 0]">
             <TresTorusGeometry />
-            <TresMeshStandardMaterial color="#f4f4f4" />
+            <TresMeshStandardMaterial color="#5672cd" />
           </TresMesh>
         </RigidBody>
 

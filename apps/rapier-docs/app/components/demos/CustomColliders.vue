@@ -55,7 +55,7 @@ const { debug, friction, mass, restitution, density } = useControls({
           :density />
           <TresMesh @click="jump" :position="[0, 15, 0]">
             <TresSphereGeometry />
-            <TresMeshStandardMaterial color="#f4f4f4" />
+            <TresMeshStandardMaterial color="#5672cd" />
           </TresMesh>
           <CylinderCollider :args="[0.5, 0.5, 1]" :position="[-1, 16, 0]"           :friction
           :mass

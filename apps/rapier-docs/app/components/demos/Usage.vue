@@ -20,7 +20,7 @@ const { debug } = useControls({
         <RigidBody  collider="ball" :restitution="0.75">
           <TresMesh :position="[0, 8, 0]">
             <TresSphereGeometry />
-            <TresMeshNormalMaterial />
+            <TresMeshStandardMaterial color="#5672cd" />
           </TresMesh>
           </RigidBody>
           <RigidBody type="fixed" :rotate-x="-Math.PI / 2" :restitution="0.75">

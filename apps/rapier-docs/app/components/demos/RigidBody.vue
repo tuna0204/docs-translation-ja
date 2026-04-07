@@ -32,7 +32,7 @@ const {
   enabledTranslationZ,
   debug,
 } = useControls({
-    resetBtn: {
+  resetBtn: {
     label: 'Reset Rigid Body',
     type: 'button',
     onClick: () => {
@@ -62,26 +62,23 @@ const {
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[15, 15, 15]" :look-at="[0, 0, 0]" />
     <OrbitControls />
+    <TresDirectionalLight :position="[1, 2, 3]" :intensity="1.5" />
 
     <Suspense>
-      <Physics ref="physicsRef" :debug >
-        <RigidBody
-          ref="rigidTorusRef"
-          :gravityScale
-          :additionalMass
-          :lockTranslations
-          :lockRotations
-          :linvel="{ x: linvelX,
-                     y: linvelY,
-                     z: linvelZ }"
-          :angvel="{ x: angvelX,
-                     y: angvelY,
-                     z: angvelZ }"
-          :enabledTranslations="[enabledTranslationX, enabledTranslationY, enabledTranslationZ]"
-        >
+      <Physics ref="physicsRef" :debug>
+        <RigidBody ref="rigidTorusRef" :gravityScale :additionalMass :lockTranslations :lockRotations :linvel="{
+          x: linvelX,
+          y: linvelY,
+          z: linvelZ
+        }" :angvel="{
+                      x: angvelX,
+                      y: angvelY,
+                      z: angvelZ
+                    }"
+          :enabledTranslations="[enabledTranslationX, enabledTranslationY, enabledTranslationZ]">
           <TresMesh :position="[0, 8, 0]">
             <TresTorusGeometry />
-            <TresMeshNormalMaterial />
+            <TresMeshStandardMaterial color="#5672cd" />
           </TresMesh>
         </RigidBody>
 

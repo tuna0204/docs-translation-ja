@@ -14,8 +14,10 @@ const { debug } = useControls(
 );
 
 const instanceRef = shallowRef()
-const torusKnots = new SphereGeometry(0.25, 32, 32)
-const torusKnotsMaterial = new MeshStandardMaterial()
+const sphereKnots = new SphereGeometry(0.25, 32, 32)
+const sphereKnotsMaterial = new MeshStandardMaterial({
+  color: '#5672cd',
+})
 
 watch(instanceRef, (mesh) => {
   mesh?.instanceMatrix.setUsage(DynamicDrawUsage)
@@ -44,7 +46,7 @@ watch(instanceRef, (mesh) => {
     <Suspense>
       <Physics :debug="debug">
         <InstancedRigidBody collider="ball" :args="[0.25]" :restitution="0.5">
-          <TresInstancedMesh ref="instanceRef" :args="[torusKnots, torusKnotsMaterial, 750]" />
+          <TresInstancedMesh ref="instanceRef" :args="[sphereKnots, sphereKnotsMaterial, 750]" />
         </InstancedRigidBody>
         <LittleBoxForDemos />
       </Physics>

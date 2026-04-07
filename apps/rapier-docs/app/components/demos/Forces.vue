@@ -66,7 +66,7 @@ useControls({
         <RigidBody ref="rigidCubeRef">
           <TresMesh :position="[0, 5, 0]" @click="jumpCube">
             <TresBoxGeometry />
-            <TresMeshNormalMaterial />
+            <TresMeshStandardMaterial color="#5672cd" />
           </TresMesh>
         </RigidBody>
 
