@@ -98,7 +98,7 @@ export interface ColliderProps {
    */
   collisionGroups?: undefined | number
   /**
-   * @description To set the collision group.
+   * @description To set the solver group.
    * @default undefined
    */
   solverGroups?: undefined | number
